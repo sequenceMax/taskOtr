@@ -1,6 +1,7 @@
 package com.otr.testtask.task2.Model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "phones")
@@ -9,14 +10,14 @@ public class Phones {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     @Column(name = "num")
-    String num;
+    private String num;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    Users user = new Users();
+    private Users user = new Users();
 
     public Phones() { }
 
@@ -42,5 +43,21 @@ public class Phones {
 
     public void setNum(String num) {
         this.num = num;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Phones phones = (Phones) o;
+        return Objects.equals(id, phones.id) &&
+                Objects.equals(num, phones.num) &&
+                Objects.equals(user, phones.user);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, num, user);
     }
 }

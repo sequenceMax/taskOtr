@@ -22,7 +22,37 @@ public class Main {
 
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("configs/applicationContext.xml");
 
+        boolean check = true;
+
+        while (check) {
+
+            System.out.println("Введите номер действия:");
+            System.out.println("==== 1. Добавить пользователя");
+            System.out.println("==== 2. Добавить номер пользователю");
+            System.out.println("==== 3. Удалить пользователя");
+            System.out.println("==== 4. Найти номера пользователя");
+
+            switch (scanner.nextLine()) {
+                case "1":
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    break;
+                case "4":
+                    getNumbersForUser();
+                    break;
+            }
+            System.out.println("Продолжить? y/n");
+            check = scanner.nextLine().equals("y");
+        }
+    }
+
+    private static void getNumbersForUser(){
+
         UserRepository userRepository = new UserRepositoryImpl();
+
+        System.out.println("ФИО: ");
 
         String fullName = scanner.nextLine();
 
@@ -30,7 +60,6 @@ public class Main {
 
         if (!phones.isEmpty()){
             numbers.put(fullName, phones);
-
             for (Phones p : phones) {
                 System.out.println(p.getNum());
             }

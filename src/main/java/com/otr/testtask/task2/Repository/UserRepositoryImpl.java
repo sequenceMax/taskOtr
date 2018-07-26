@@ -1,8 +1,6 @@
 package com.otr.testtask.task2.Repository;
 
-import com.otr.testtask.task2.Exceptions.JdbcConnectException;
 import com.otr.testtask.task2.Model.Phones;
-import org.hibernate.exception.JDBCConnectionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -15,16 +13,13 @@ import java.util.List;
 public class UserRepositoryImpl implements UserRepository {
 
     @Autowired
-    DataSource dataSource;
+    public DataSource dataSource;
 
     private static JdbcTemplate jdbcTemplate;
 
     @PostConstruct
     public void init() {
         jdbcTemplate = new JdbcTemplate(dataSource);
-//        if(jdbcTemplate == null){
-//            throw new JDBCConnectionException("Ошибка соединения", new JdbcConnectException());
-//        }
     }
 
     @Override
