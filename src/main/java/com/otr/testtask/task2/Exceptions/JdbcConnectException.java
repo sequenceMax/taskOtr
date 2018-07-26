@@ -6,6 +6,5 @@ public class JdbcConnectException extends SQLException {
     public JdbcConnectException(String s) {
         super(s);
     }
-    public JdbcConnectException() {
-    }
+    public JdbcConnectException() { }
 }

@@ -43,11 +43,11 @@ public class Main {
                     break;
             }
             System.out.println("Продолжить? y/n");
-            if(!scanner.nextLine().equals("y")) break;
+            if (!scanner.nextLine().equals("y")) break;
         }
     }
 
-    private static void addUser(){
+    private static void addUser() {
 
         System.out.print("Введите ФИО: ");
         String name = scanner.nextLine();
@@ -68,7 +68,7 @@ public class Main {
         }
     }
 
-    private static void deleteUser(){
+    private static void deleteUser() {
 
         UserRepositoryImpl userRepository = new UserRepositoryImpl();
 
@@ -79,7 +79,7 @@ public class Main {
         System.out.println("Пользователь удалён.");
     }
 
-    private static void addNumberForUser(){
+    private static void addNumberForUser() {
 
         System.out.print("Добавить номер для: ");
         String name = scanner.nextLine();
@@ -88,7 +88,7 @@ public class Main {
         addNumber(name);
     }
 
-    private static void addNumber(String name){
+    private static void addNumber(String name) {
         UserRepositoryImpl userRepository = new UserRepositoryImpl();
 
         System.out.print("Введите номер: ");
@@ -102,12 +102,12 @@ public class Main {
             if (scanner.nextLine().equals("y"))
                 resultPrint(name);
         } else {
-            System.out.println("Ошибка добавления пользователя!");
+            System.out.println("Ошибка добавления!");
         }
 
     }
 
-    private static void printNumbersForUser(){
+    private static void printNumbersForUser() {
 
         System.out.println("ФИО: ");
 
@@ -116,7 +116,7 @@ public class Main {
         resultPrint(fullName);
     }
 
-    private static void resultPrint(String fullName){
+    private static void resultPrint(String fullName) {
 
         Map<String, List<Phones>> numbers = new HashMap<>();
 
@@ -124,7 +124,7 @@ public class Main {
 
         List<Phones> phones = userRepository.getPhonesByFullName(fullName);
 
-        if (phones.isEmpty()){
+        if (phones.isEmpty()) {
             System.out.println("Нет такого пользователя");
         } else {
 
@@ -134,7 +134,7 @@ public class Main {
 
             System.out.println(key);
 
-            for (Phones phone: numbers.get(key)) {
+            for (Phones phone : numbers.get(key)) {
                 System.out.println(phone.getNum());
             }
         }

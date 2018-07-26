@@ -128,11 +128,22 @@ public class UserRepositoryImpl implements UserRepository {
                 try {
                     String queryAddUser = "INSERT INTO users (id, full_name) " +
                             "VALUES (" + countIdTempForUsers + ", '" + name + "')";
-                    jdbcTemplate.update(queryAddUser);
+                    jdbcTemplate.execute(queryAddUser);
                     break;
                 } catch (DuplicateKeyException e) {
                     countIdTempForUsers++;
                 }
+            }
+        }
+        while (true) {
+            try {
+                String queryAddPhone = "INSERT INTO phones (id, num, user_id)" +
+                        "VALUES (" + countIdTempForPhones + ", " + number + ", " + countIdTempForUsers + ")";
+
+                jdbcTemplate.execute(queryAddPhone);
+                break;
+            } catch (DuplicateKeyException e) {
+                countIdTempForPhones++;
             }
         }
     }
