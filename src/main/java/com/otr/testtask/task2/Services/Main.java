@@ -14,17 +14,13 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static Map<String, List<Phones>> numbers = new HashMap<>();
-
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
 
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("configs/applicationContext.xml");
 
-        boolean check = true;
-
-        while (check) {
+        while (true) {
 
             System.out.println("Введите номер действия:");
             System.out.println("==== 1. Добавить пользователя");
@@ -34,37 +30,114 @@ public class Main {
 
             switch (scanner.nextLine()) {
                 case "1":
+                    addUser();
                     break;
                 case "2":
+                    addNumberForUser();
                     break;
                 case "3":
+                    deleteUser();
                     break;
                 case "4":
-                    getNumbersForUser();
+                    printNumbersForUser();
                     break;
             }
             System.out.println("Продолжить? y/n");
-            check = scanner.nextLine().equals("y");
+            if(!scanner.nextLine().equals("y")) break;
         }
     }
 
-    private static void getNumbersForUser(){
+    private static void addUser(){
 
-        UserRepository userRepository = new UserRepositoryImpl();
+        System.out.print("Введите ФИО: ");
+        String name = scanner.nextLine();
+        System.out.print("\nВведите номер: ");
+        String number = scanner.nextLine();
+        System.out.println();
+
+        UserRepositoryImpl userRepository = new UserRepositoryImpl();
+
+        userRepository.addUser(name, number);
+
+        System.out.println("Пользователь добавлен.");
+        while (true) {
+            System.out.println("Добавить номер? y/n");
+            if (scanner.nextLine().equals("y")) {
+                addNumber(name);
+            } else break;
+        }
+    }
+
+    private static void deleteUser(){
+
+        UserRepositoryImpl userRepository = new UserRepositoryImpl();
+
+        System.out.println("ФИО для удаления: ");
+
+        userRepository.deleteUserForName(scanner.nextLine());
+
+        System.out.println("Пользователь удалён.");
+    }
+
+    private static void addNumberForUser(){
+
+        System.out.print("Добавить номер для: ");
+        String name = scanner.nextLine();
+        System.out.println();
+
+        addNumber(name);
+    }
+
+    private static void addNumber(String name){
+        UserRepositoryImpl userRepository = new UserRepositoryImpl();
+
+        System.out.print("Введите номер: ");
+        String number = scanner.nextLine();
+        System.out.println();
+
+        boolean check = userRepository.setNumberForUser(name, number);
+
+        if (check) {
+            System.out.println("Номер добавлен. Вывести все номера пользователя? y/n");
+            if (scanner.nextLine().equals("y"))
+                resultPrint(name);
+        } else {
+            System.out.println("Ошибка добавления пользователя!");
+        }
+
+    }
+
+    private static void printNumbersForUser(){
 
         System.out.println("ФИО: ");
 
         String fullName = scanner.nextLine();
 
+        resultPrint(fullName);
+    }
+
+    private static void resultPrint(String fullName){
+
+        Map<String, List<Phones>> numbers = new HashMap<>();
+
+        UserRepository userRepository = new UserRepositoryImpl();
+
         List<Phones> phones = userRepository.getPhonesByFullName(fullName);
 
-        if (!phones.isEmpty()){
-            numbers.put(fullName, phones);
-            for (Phones p : phones) {
-                System.out.println(p.getNum());
-            }
-        } else {
+        if (phones.isEmpty()){
             System.out.println("Нет такого пользователя");
+        } else {
+
+            numbers.put(fullName, phones);
+
+            String key = (String) numbers.keySet().toArray()[0];
+
+            System.out.println(key);
+
+            for (Phones phone: numbers.get(key)) {
+                System.out.println(phone.getNum());
+            }
         }
+
     }
 }

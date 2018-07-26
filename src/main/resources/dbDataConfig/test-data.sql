@@ -1,4 +1,4 @@
-INSERT INTO users (id, full_name) VALUES (1, 'Иванов');
+INSERT INTO users (id, full_name) VALUES ( 1, 'Иванов');
 INSERT INTO users (id, full_name) VALUES (2, 'Петров П.П.');
 INSERT INTO users (id, full_name) VALUES (3, 'Сидоров С.С.');
 
